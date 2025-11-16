@@ -1,0 +1,23 @@
+1.Why is sorting a prerequisite for efficient searching?
+Sorting is like organizing your closet. Once everything is neat, 
+it's WAY easier to find what you're looking for! Sorting lets you use super-fast search methods.
+
+2.Which sorting algorithm uses a pivot?
+Quick Sort picks one item as a "pivot" and then puts everything smaller on one side and everything bigger on the other.
+It's like dividing a group of kids by height.
+
+3.How does Shell Sort improve Insertion Sort?
+Shell Sort is like giving Insertion Sort a head start.
+It roughly sorts things first, so Insertion Sort doesn't have to work as hard in the end.
+
+4.Give one real-world example where sorting and searching are used together.
+ Think about shopping online. You search for "cheap TVs," and the website first finds all the TVs, 
+then sorts them by price so you see the cheapest ones first.
+
+
+5.What did you learn from comparing these algorithms?
+There's no single "best" sorting method. It depends on the situation.
+You have to trade off between easy-to-code, fast, and uses-little-memory.
+Sorting is super important for making searching faster.
+Just because one sort is "faster" in theory doesn't always mean it's faster in practice.
+Even simple sorts can be improved!
