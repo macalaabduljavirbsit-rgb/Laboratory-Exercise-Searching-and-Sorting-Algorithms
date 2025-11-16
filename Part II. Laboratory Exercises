@@ -1,0 +1,132 @@
+Activity 1 – Implementing Searching Algorithms
+
+1.Create a C++ program named searching_lab.cpp.
+
+
+2.Use a sorted integer array of 10 elements.
+
+
+3.Allow the user to enter a target element to search for.
+
+
+4.Display the index if found; otherwise display “Element not found”.
+
+
+
+________________________________________________________________________________________________________________________________________________________________________________________
+
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+// Linear Search
+int linearSearch(const vector<int>& arr, int target) {
+    for (size_t i = 0; i < arr.size(); ++i) {
+        if (arr[i] == target) {
+            return i; // Element found at index i
+        }
+    }
+    return -1; // Element not found
+}
+
+// Binary Search
+int binarySearch(const vector<int>& arr, int target) {
+    int left = 0;
+    int right = arr.size() - 1;
+
+    while (left <= right) {
+        int mid = left + (right - left) / 2; // Prevent potential overflow
+        if (arr[mid] == target) {
+            return mid; // Element found at index mid
+        } else if (arr[mid] < target) {
+            left = mid + 1; // Target is in the right half
+        } else {
+            right = mid - 1; // Target is in the left half
+        }
+    }
+    return -1; // Element not found
+}
+
+// Interpolation Search
+int interpolationSearch(const vector<int>& arr, int target) {
+    int left = 0;
+    int right = arr.size() - 1;
+
+    while (left <= right && target >= arr[left] && target <= arr[right]) {
+        if (left == right) {
+            if (arr[left] == target) return left;
+            return -1;
+        }
+
+        // Estimate the position using interpolation formula
+        int pos = left + ((double)(right - left) / (arr[right] - arr[left]) * (target - arr[left]));
+
+        if (arr[pos] == target) {
+            return pos; // Element found at index pos
+        } else if (arr[pos] < target) {
+            left = pos + 1; // Target is in the right side
+        } else {
+            right = pos - 1; // Target is in the left side
+        }
+    }
+    return -1; // Element not found
+}
+
+int main() {
+    vector<int> sortedArray = {2, 5, 8, 12, 16, 23, 38, 56, 72, 91};
+    int target;
+
+    cout << "Enter the element to search for: ";
+    cin >> target;
+
+    // Linear Search
+    int linearResult = linearSearch(sortedArray, target);
+    cout << "Linear Search: ";
+    if (linearResult != -1) {
+        cout << "Element found at index " << linearResult << endl;
+    } else {
+        cout << "Element not found" << endl;
+    }
+
+    // Binary Search
+    int binaryResult = binarySearch(sortedArray, target);
+    cout << "Binary Search: ";
+    if (binaryResult != -1) {
+        cout << "Element found at index " << binaryResult << endl;
+    } else {
+        cout << "Element not found" << endl;
+    }
+
+    // Interpolation Search
+    int interpolationResult = interpolationSearch(sortedArray, target);
+    cout << "Interpolation Search: ";
+    if (interpolationResult != -1) {
+        cout << "Element found at index " << interpolationResult << endl;
+
+    } else {
+        cout << "Element not found" << endl;
+    }
+
+    return 0;
+}
+
+
+
+____________________________________________________________________________________________________________________________________________________________________________________________________________________
+Guide Questions:
+1.Which algorithm executed faster?
+For big datasets, Binary Search is usually fastest , 
+and Interpolation Search can be even quicker if the data is evenly spread out. 
+Linear Search is slowest . But with only 10 items, the difference might be small,
+and Linear Search could even be faster due to less overhead.
+
+2.What happens if the array is not sorted in Binary or Interpolation Search?
+ Both Binary and Interpolation Search need a sorted array to work right.
+If it's not sorted, they'll likely give wrong answers or miss the target completely.
+
+3.In what type of dataset would Interpolation Search perform best?
+ Interpolation Search is best when the data is evenly spread out .
+If the data is clustered, it's not as good and might be slower than Binary Search.
+
