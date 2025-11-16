@@ -1,0 +1,20 @@
+1.1What is the importance of searching in data structures?
+ searching is super important because it lets you quickly find specific stuff in your data without having to look at everything
+
+
+2.Why is sorting necessary before performing a binary search?
+binary search only works if your stuff is organized. Imagine trying to find a specific song on your Spotify playlist,
+but it's all jumbled up. Binary search needs your playlist to be in order  so it can quickly find the song you're looking for.
+If it's not organized, binary search will totally fail.
+
+3.Differentiate between linear search and binary search.
+Linear Search: You check every single item in the list, one by one, until you find what you're looking for. It works no matter how the list is organized.
+Binary Search: You repeatedly cut the list in half, but this only works if the list is already in order.
+
+4.What is meant by “Divide and Conquer” in algorithms?
+Divide: Break it down into smaller tasks .
+Conquer: Do each of those smaller tasks.
+Combine: Once you've finished all the smaller.
+
+5.When is interpolation search more efficient than binary search?
+ interpolation search is faster than binary search when your data is evenly spread out, like names in a phone book that aren't all clustered together.
