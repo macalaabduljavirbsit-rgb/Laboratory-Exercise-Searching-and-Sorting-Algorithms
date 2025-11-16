@@ -130,3 +130,290 @@ If it's not sorted, they'll likely give wrong answers or miss the target complet
  Interpolation Search is best when the data is evenly spread out .
 If the data is clustered, it's not as good and might be slower than Binary Search.
 
+_____________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+Activity 2 – Implementing Sorting Algorithms
+Task:
+Implement the following sorting algorithms:
+
+Bubble Sort
+Insertion Sort
+Selection Sort
+Merge Sort
+Quick Sort
+Heap Sort
+Shell Sort
+
+Instructions:
+Create a C++ program named sorting_lab.cpp.
+
+Allow the user to input 10 integers.
+
+Sort the array using different algorithms and display results.
+
+
+_______________________________________________________________________________________________________________________________________________________________________________________________________
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+// Function to print the array
+void printArray(const vector<int>& arr) {
+    for (int num : arr) {
+        cout << num << " ";
+    }
+    cout << endl;
+}
+
+// Bubble Sort
+void bubbleSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        for (int j = 0; j < n - i - 1; ++j) {
+            if (arr[j] > arr[j + 1]) {
+                swap(arr[j], arr[j + 1]);
+            }
+        }
+    }
+}
+
+// Insertion Sort
+void insertionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 1; i < n; ++i) {
+        int key = arr[i];
+        int j = i - 1;
+
+        // Move elements of arr[0..i-1], that are greater than key, to one position ahead
+        // of their current position
+        while (j >= 0 && arr[j] > key) {
+            arr[j + 1] = arr[j];
+            j = j - 1;
+        }
+        arr[j + 1] = key;
+    }
+}
+
+// Selection Sort
+void selectionSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int i = 0; i < n - 1; ++i) {
+        int min_idx = i;
+        for (int j = i + 1; j < n; ++j) {
+            if (arr[j] < arr[min_idx]) {
+                min_idx = j;
+            }
+        }
+        swap(arr[min_idx], arr[i]);
+    }
+}
+
+// Merge Sort
+void merge(vector<int>& arr, int left, int mid, int right) {
+    int n1 = mid - left + 1;
+    int n2 = right - mid;
+
+    // Create temporary arrays
+    vector<int> L(n1), R(n2);
+
+    // Copy data to temporary arrays L[] and R[]
+    for (int i = 0; i < n1; ++i)
+        L[i] = arr[left + i];
+    for (int j = 0; j < n2; ++j)
+        R[j] = arr[mid + 1 + j];
+
+    // Initial indexes of first and second subarrays
+    int i = 0, j = 0;
+
+    // Initial index of merged subarray array
+    int k = left;
+    while (i < n1 && j < n2) {
+        if (L[i] <= R[j]) {
+            arr[k] = L[i];
+            i++;
+        } else {
+            arr[k] = R[j];
+            j++;
+        }
+        k++;
+    }
+
+    // Copy the remaining elements of L[], if there are any
+    while (i < n1) {
+        arr[k] = L[i];
+        i++;
+        k++;
+    }
+
+    // Copy the remaining elements of R[], if there are any
+    while (j < n2) {
+        arr[k] = R[j];
+        j++;
+        k++;
+    }
+}
+
+void mergeSort(vector<int>& arr, int left, int right) {
+    if (left < right) {
+        // Find the middle point
+        int mid = left + (right - left) / 2;
+
+        // Sort first and second halves
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+
+        // Merge the sorted halves
+        merge(arr, left, mid, right);
+    }
+}
+
+// Quick Sort
+int partition(vector<int>& arr, int low, int high) {
+    int pivot = arr[high];
+    int i = (low - 1);
+
+    for (int j = low; j <= high - 1; ++j) {
+        if (arr[j] < pivot) {
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[high]);
+    return (i + 1);
+}
+
+void quickSort(vector<int>& arr, int low, int high) {
+    if (low < high) {
+        int pi = partition(arr, low, high);
+
+        quickSort(arr, low, pi - 1);
+        quickSort(arr, pi + 1, high);
+    }
+}
+
+// Heap Sort
+void heapify(vector<int>& arr, int n, int i) {
+    int largest = i;
+    int left = 2 * i + 1;
+    int right = 2 * i + 2;
+
+    if (left < n && arr[left] > arr[largest])
+        largest = left;
+
+    if (right < n && arr[right] > arr[largest])
+        largest = right;
+
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(vector<int>& arr) {
+    int n = arr.size();
+
+    // Build max heap
+    for (int i = n / 2 - 1; i >= 0; --i)
+        heapify(arr, n, i);
+
+    // One by one extract an element from heap
+    for (int i = n - 1; i > 0; --i) {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
+
+// Shell Sort
+void shellSort(vector<int>& arr) {
+    int n = arr.size();
+    for (int gap = n / 2; gap > 0; gap /= 2) {
+        for (int i = gap; i < n; ++i) {
+            int temp = arr[i];
+            int j;
+            for (j = i; j >= gap && arr[j - gap] > temp; j -= gap)
+                arr[j] = arr[j - gap];
+            arr[j] = temp;
+        }
+    }
+}
+
+int main() {
+    vector<int> arr(10);
+
+    cout << "Enter 10 integers: " << endl;
+    for (int i = 0; i < 10; ++i) {
+        cin >> arr[i];
+    }
+
+    // Bubble Sort
+    vector<int> bubbleArr = arr;
+    bubbleSort(bubbleArr);
+    cout << "Bubble Sort: ";
+    printArray(bubbleArr);
+
+    // Insertion Sort
+    vector<int> insertionArr = arr;
+    insertionSort(insertionArr);
+    cout << "Insertion Sort: ";
+    printArray(insertionArr);
+
+    // Selection Sort
+    vector<int> selectionArr = arr;
+    selectionSort(selectionArr);
+    cout << "Selection Sort: ";
+    printArray(selectionArr);
+
+    // Merge Sort
+    vector<int> mergeArr = arr;
+    mergeSort(mergeArr, 0, mergeArr.size() - 1);
+    cout << "Merge Sort: ";
+    printArray(mergeArr);
+
+    // Quick Sort
+    vector<int> quickArr = arr;
+    quickSort(quickArr, 0, quickArr.size() - 1);
+    cout << "Quick Sort: ";
+    printArray(quickArr);
+
+    // Heap Sort
+    vector<int> heapArr = arr;
+    heapSort(heapArr);
+    cout << "Heap Sort: ";
+    printArray(heapArr);
+
+    // Shell Sort
+    vector<int> shellArr = arr;
+    shellSort(shellArr);
+    cout << "Shell Sort: ";
+    printArray(shellArr);
+
+    return 0;
+}
+
+______________________________________________________________________________________________________________________________________________________________________________________________________
+
+
+1.Which algorithm was easiest to implement?
+Simplest to Code: Bubble Sort, Insertion Sort, and Selection Sort are probably the easiest to write. Think of them as the "beginner" sorts.
+
+2.Which algorithm was the fastest?
+Big Lists: Merge Sort, Quick Sort, and Heap Sort are generally the winners. They're like the "pro" sorts.
+Shell Sort is okay, better than the beginner sorts, but not as good as the pros.
+Bubble, Insertion, and Selection are the slowest when you have a lot to sort.
+
+3.What is the time complexity of each sorting method?
+No Real Test: Keep in mind, this is just based on looking at the code.
+The only way to know which is fastest is to actually run the code and time it!
+
+List Size Matters: What's fastest changes a lot depending on how many things you're sorting. 
+A sort that's great for 1000 items might be terrible for 10.
+
+Shell Sort's Secret Sauce: Shell Sort's speed depends a lot on how it chooses the "gaps" it uses. The code we have uses a simple way to pick gaps,
+but there are better ways that can make it faster.
+
+Smarter Bubble Sort: The Bubble Sort in the code could be made a bit smarter. If it notices that it didn't have to swap anything during a pass,
+it knows the list is already sorted and can stop early. This makes it much faster in some cases.
+
+Real-World Messiness: How the data is already arranged also matters. A sort that's fast for random data might be slow for data that's almost sorted, or for data that's in reverse order. Real-world data is often messy!
